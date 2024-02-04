@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 export default function FormLogin() {
 	const form = useForm<z.infer<typeof loginSchema>>({
@@ -74,8 +75,14 @@ export default function FormLogin() {
 							</FormItem>
 						)}
 					/>
-					<FormItem>
-						<Button disabled={form.formState.isSubmitting}>
+					<FormItem className="ml-auto">
+						<Button asChild variant="outline">
+							<Link to="/register">Register</Link>
+						</Button>
+						<Button
+							disabled={form.formState.isSubmitting}
+							className="ml-2"
+						>
 							{form.formState.isSubmitting ? (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							) : null}
