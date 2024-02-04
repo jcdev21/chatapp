@@ -24,6 +24,16 @@ export default function FormLogin() {
 
 	async function onSubmit(values: z.infer<typeof loginSchema>) {
 		console.log(values);
+
+		// try {
+		//   const response = await loginWithEmailAndPassword(values);
+		//   const { data } = response;
+		//   setAccessTokenCookie(data.accessToken);
+		//   setUserCookie(data.user);
+		//   onSuccess();
+		// } catch (error) {
+		//   console.log(error);
+		// }
 	}
 
 	return (

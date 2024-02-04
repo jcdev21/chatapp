@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Layout from '@/components/layout';
+import ProtectedLayout from '@/components/protected-layout';
 import Chat from './pages/chat';
 import Login from './pages/login';
 import Register from './pages/register';
@@ -8,7 +8,7 @@ export default function App() {
 	const router = createBrowserRouter([
 		{
 			path: '/',
-			element: <Layout />,
+			element: <ProtectedLayout />,
 			children: [
 				{
 					index: true,
