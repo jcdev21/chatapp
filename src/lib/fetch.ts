@@ -1,4 +1,5 @@
 import {
+	deleteAuthCookies,
 	getAccessTokenCookie,
 	setAccessTokenCookie,
 	setUserCookie,
@@ -7,8 +8,6 @@ import {
 const originalFetch = window.fetch;
 
 window.requestInterceptor = (args: RequestInit) => {
-	console.log('in requestInterceptor');
-
 	args.headers = new Headers();
 	const token = getAccessTokenCookie();
 
@@ -25,9 +24,6 @@ window.requestInterceptor = (args: RequestInit) => {
 };
 
 window.responseInterceptor = (response: Response) => {
-	console.log('in responseInterceptor');
-	console.log(response);
-
 	return response;
 };
 
@@ -38,10 +34,6 @@ window.fetch = async (...args) => {
 
 	if (!response.ok && response.status === 401) {
 		const originalRequest = args;
-
-		console.log('unauthorized');
-		console.log(originalRequest);
-
 		const refreshHeaders = new Headers(originalRequest[1]?.headers);
 		const fetchRefreshResponse = await window.fetch(
 			'http://localhost:3000/auth/refresh',
@@ -51,7 +43,6 @@ window.fetch = async (...args) => {
 				credentials: 'include',
 			}
 		);
-		console.log(fetchRefreshResponse);
 
 		if (fetchRefreshResponse.ok) {
 			const resultRefresh = await fetchRefreshResponse.json();
@@ -71,12 +62,15 @@ window.fetch = async (...args) => {
 				headers: newOriginalRequestHeaders,
 			});
 		}
-
-		return Promise.reject(fetchRefreshResponse);
 	}
 
 	if (response.ok) {
 		return response;
+	}
+
+	if (!response.ok && response.status === 403) {
+		deleteAuthCookies();
+		window.location.replace('/login');
 	}
 
 	return Promise.reject(response);
