@@ -12,7 +12,7 @@ export function getAccessTokenCookie(): string | undefined {
 }
 
 export function setAccessTokenCookie(token: string): void {
-	Cookies.set('access-token', token, { expires: 7 });
+	Cookies.set('access-token', token, { expires: 7 }); // expired in 7 days
 }
 
 export function getUserCookie(): UserType | undefined {
@@ -25,7 +25,7 @@ export function getUserCookie(): UserType | undefined {
 
 export function setUserCookie(user: UserType): void {
 	const userStr = JSON.stringify(user);
-	Cookies.set('user-verified', userStr, { expires: 7 });
+	Cookies.set('user-verified', userStr, { expires: 7 }); // expired in 7 days
 }
 
 export function deleteAuthCookies(): void {
