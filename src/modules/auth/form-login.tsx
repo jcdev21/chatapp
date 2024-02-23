@@ -13,6 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { loginWithEmailAndPassword } from './api-login';
+import { setAccessTokenCookie, setUserCookie } from '@/lib/utils';
 
 export default function FormLogin() {
 	const form = useForm<z.infer<typeof loginSchema>>({
@@ -26,15 +28,16 @@ export default function FormLogin() {
 	async function onSubmit(values: z.infer<typeof loginSchema>) {
 		console.log(values);
 
-		// try {
-		//   const response = await loginWithEmailAndPassword(values);
-		//   const { data } = response;
-		//   setAccessTokenCookie(data.accessToken);
-		//   setUserCookie(data.user);
-		//   onSuccess();
-		// } catch (error) {
-		//   console.log(error);
-		// }
+		try {
+			const response = await loginWithEmailAndPassword(values);
+			const result = await response.json();
+			const { accessToken, ...user } = result.data;
+			setAccessTokenCookie(accessToken);
+			setUserCookie(user);
+			window.location.replace('/');
+		} catch (error) {
+			console.log('ERROR : ', error);
+		}
 	}
 
 	return (
