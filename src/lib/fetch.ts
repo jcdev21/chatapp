@@ -1,3 +1,4 @@
+import { API_URL } from '@/constans';
 import {
 	deleteAuthCookies,
 	getAccessTokenCookie,
@@ -15,7 +16,7 @@ window.requestInterceptor = (args: RequestInit) => {
 		args.headers.set('authorization', `Bearer ${token}`);
 	}
 
-	args.headers.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+	args.headers.set('Access-Control-Allow-Origin', API_URL);
 	args.headers.set('Accept', 'application/json');
 	args.headers.set('Content-Type', 'application/json');
 	args.credentials = 'include';
@@ -36,7 +37,7 @@ window.fetch = async (...args) => {
 		const originalRequest = args;
 		const refreshHeaders = new Headers(originalRequest[1]?.headers);
 		const fetchRefreshResponse = await window.fetch(
-			'http://localhost:3000/auth/refresh',
+			`${API_URL}/auth/refresh`,
 			{
 				method: 'POST',
 				headers: refreshHeaders,

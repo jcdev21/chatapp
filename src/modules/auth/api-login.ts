@@ -1,3 +1,4 @@
+import { API_URL } from '@/constans';
 import { fetch } from '@/lib/fetch';
 
 type LoginCredentialsDTO = {
@@ -8,10 +9,7 @@ type LoginCredentialsDTO = {
 export const loginWithEmailAndPassword = async (
 	payload: LoginCredentialsDTO
 ) => {
-	// const formData = new FormData();
-	// formData.append('email', payload.email);
-	// formData.append('password', payload.password);
-	return await fetch('http://localhost:3000/auth/login', {
+	return await fetch(`${API_URL}/auth/login`, {
 		method: 'POST',
 		body: JSON.stringify(payload),
 	});
