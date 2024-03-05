@@ -6,16 +6,11 @@ import Register from './pages/register';
 import { loader as chatLoader } from './modules/chat/loader';
 import { actionRegister } from './modules/auth/action-register';
 
-function RootBoudary() {
-	return <></>;
-}
-
 export default function App() {
 	const router = createBrowserRouter([
 		{
 			path: '/',
 			element: <ProtectedLayout />,
-			errorElement: <RootBoudary />,
 			children: [
 				{
 					index: true,
