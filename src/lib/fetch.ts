@@ -5,6 +5,7 @@ import {
 	setAccessTokenCookie,
 	setUserCookie,
 } from './utils';
+import HttpError from './handle-error';
 
 const originalFetch = window.fetch;
 
@@ -67,6 +68,7 @@ window.fetch = async (...args) => {
 
 	if (response.ok) {
 		return response;
+		// return await response.json();
 	}
 
 	if (!response.ok && response.status === 403) {
@@ -74,7 +76,16 @@ window.fetch = async (...args) => {
 		window.location.replace('/login');
 	}
 
-	return Promise.reject(response);
+	// return Promise.reject(response);
+	const dataError = (await response.json()) as HttpError;
+	return Promise.reject(
+		new HttpError(
+			dataError.message,
+			dataError.status,
+			dataError.statusCode,
+			dataError.errors
+		)
+	);
 };
 
 export const fetch = window.fetch;

@@ -1,13 +1,11 @@
 import { API_URL } from '@/constans';
 import { fetch } from '@/lib/fetch';
-import { LoginCredentialsDTO } from './types';
+import { RegisterCredentialsDTO } from './types';
 import HttpError from '@/lib/handle-error';
 
-export const loginWithEmailAndPassword = async (
-	payload: LoginCredentialsDTO
-) => {
+export const registerUser = async (payload: RegisterCredentialsDTO) => {
 	try {
-		const response = await fetch(`${API_URL}/auth/login`, {
+		const response = await fetch(`${API_URL}/auth/register`, {
 			method: 'POST',
 			body: JSON.stringify(payload),
 		});

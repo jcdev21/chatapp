@@ -14,7 +14,7 @@ import {
 import { Navigate, useLocation } from 'react-router-dom';
 
 export type UserType = {
-	id: number;
+	id: string;
 	email: string;
 	name: string;
 };

@@ -7,7 +7,7 @@ export default function ProtectedLayout() {
 		<RequireAuth>
 			<div>
 				<Navbar />
-				<main>
+				<main className="w-full h-[calc(100vh-4rem)] flex justify-center items-end bg-slate-200">
 					<Outlet />
 				</main>
 			</div>

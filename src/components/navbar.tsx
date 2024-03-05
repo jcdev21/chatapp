@@ -17,12 +17,12 @@ export default function Navbar() {
 	};
 
 	return (
-		<header className="w-full py-4 shadow">
+		<header className="w-full h-16 shadow grid">
 			<nav
 				role="navigation"
 				className="container flex justify-between items-center"
 			>
-				<h1 className="text-2xl font-medium">ChatApp</h1>
+				<h1 className="text-2xl font-medium text-primary">ChatApp</h1>
 				<div>
 					<Button variant="secondary" onClick={signOutHandle}>
 						Logout

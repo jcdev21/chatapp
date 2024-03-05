@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { loginSchema } from './form-schema';
+import { registerSchema } from './form-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
 	Form,
@@ -12,33 +12,68 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { loginWithEmailAndPassword } from './api-login';
-import { setAccessTokenCookie, setUserCookie } from '@/lib/utils';
+import { Link, useActionData, useSubmit } from 'react-router-dom';
+import { useEffect } from 'react';
+import HttpError from '@/lib/handle-error';
 
-export default function FormLogin() {
-	const form = useForm<z.infer<typeof loginSchema>>({
-		resolver: zodResolver(loginSchema),
+export default function FormRegister() {
+	const submit = useSubmit();
+	const errors = useActionData() as HttpError;
+
+	const form = useForm<z.infer<typeof registerSchema>>({
+		resolver: zodResolver(registerSchema),
 		defaultValues: {
 			email: '',
 			password: '',
+			name: '',
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof loginSchema>) {
-		const { data, status } = await loginWithEmailAndPassword(values);
-		if (status) {
-			const { accessToken, ...user } = data;
-			setAccessTokenCookie(accessToken);
-			setUserCookie(user);
-			window.location.replace('/');
-		}
+	async function onSubmit(values: z.infer<typeof registerSchema>) {
+		console.log(values);
+		submit(values, {
+			method: 'post',
+			action: '/register',
+			encType: 'application/json',
+		});
 	}
+
+	useEffect(() => {
+		console.log('useEffect');
+		if (errors?.errors) {
+			console.log('ada error validasi');
+			for (const error of errors.errors) {
+				form.setError(
+					error.path[0] as keyof typeof registerSchema.shape,
+					{
+						type: 'custom',
+						message: error.message,
+					}
+				);
+			}
+		}
+	}, [errors, form]);
 
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="grid w-full items-center gap-4">
+					<FormField
+						control={form.control}
+						name="name"
+						render={({ field }) => (
+							<FormItem>
+								<FormControl>
+									<Input
+										placeholder="Enter your name"
+										disabled={form.formState.isSubmitting}
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 					<FormField
 						control={form.control}
 						name="email"
@@ -75,7 +110,7 @@ export default function FormLogin() {
 					/>
 					<FormItem className="ml-auto">
 						<Button asChild variant="outline">
-							<Link to="/register">Register</Link>
+							<Link to="/login">Login</Link>
 						</Button>
 						<Button
 							disabled={form.formState.isSubmitting}
@@ -84,7 +119,7 @@ export default function FormLogin() {
 							{form.formState.isSubmitting ? (
 								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 							) : null}
-							Login
+							Register
 						</Button>
 					</FormItem>
 				</div>
