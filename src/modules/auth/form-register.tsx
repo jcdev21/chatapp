@@ -30,7 +30,6 @@ export default function FormRegister() {
 	});
 
 	async function onSubmit(values: z.infer<typeof registerSchema>) {
-		console.log(values);
 		submit(values, {
 			method: 'post',
 			action: '/register',
@@ -39,9 +38,7 @@ export default function FormRegister() {
 	}
 
 	useEffect(() => {
-		console.log('useEffect');
 		if (errors?.errors) {
-			console.log('ada error validasi');
 			for (const error of errors.errors) {
 				form.setError(
 					error.path[0] as keyof typeof registerSchema.shape,
