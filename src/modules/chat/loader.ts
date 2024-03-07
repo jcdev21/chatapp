@@ -14,9 +14,7 @@ export async function loader() {
 	const user = getUserCookie();
 	const accessToken = getAccessTokenCookie();
 
-	if (!user && !accessToken) {
-		return redirect('/login');
-	}
+	if (!user && !accessToken) return redirect('/login');
 
 	const recents = await getMembersChat(user?.id as string);
 	const others = getMembersOther(user?.id as string);

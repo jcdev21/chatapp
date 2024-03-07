@@ -1,14 +1,14 @@
 import { API_URL } from '@/constans';
 import { fetch } from '@/lib/fetch';
+import HttpError from '@/lib/handle-error';
 
 export async function getMembersChat(userId: string) {
 	try {
 		const response = await fetch(`${API_URL}/chat/${userId}`, {
 			method: 'GET',
 		});
-		const result = await response.json();
-		return result.data;
+		return await response.json();
 	} catch (error) {
-		throw new Error('error');
+		if (error instanceof HttpError) return error;
 	}
 }
