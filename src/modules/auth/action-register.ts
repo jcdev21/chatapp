@@ -5,6 +5,6 @@ import { registerUser } from './api-register';
 export async function actionRegister({ request }: { request: Request }) {
 	const payload = (await request.json()) as RegisterCredentialsDTO;
 	const result = await registerUser(payload);
-	if (result.success) return redirect('/login');
+	if (result.status) return redirect('/login');
 	return result;
 }

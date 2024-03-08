@@ -4,10 +4,11 @@ import { getMembersOther } from './api-other-list';
 import { defer, redirect } from 'react-router-dom';
 import { User } from '../user/types';
 import { Chat } from './types';
+import { HttpSuccess } from '@/lib/handle-http-success';
 
 export type TFetchReturnType = {
-	recents: Chat & { memberId: User }[];
-	others: Promise<User[]>;
+	recents: HttpSuccess<(Chat & { detailMember: User })[]>;
+	others: Promise<HttpSuccess<User[]>>;
 };
 
 export async function loader() {
