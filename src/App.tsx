@@ -6,6 +6,7 @@ import Register from './pages/register';
 import { loader as chatLoader } from './modules/chat/loader';
 import { actionRegister } from './modules/auth/action-register';
 import Chatroom from './pages/chatroom';
+import { loader as chatroomLoader } from './modules/chatroom/loader';
 
 export default function App() {
 	const router = createBrowserRouter([
@@ -21,6 +22,7 @@ export default function App() {
 				{
 					path: ':chatId',
 					element: <Chatroom />,
+					loader: chatroomLoader,
 				},
 			],
 		},

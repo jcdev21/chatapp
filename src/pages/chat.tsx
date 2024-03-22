@@ -4,11 +4,21 @@ import { TFetchReturnType } from '@/modules/chat/loader';
 import OtherList from '@/modules/chat/other-list';
 import RecentList from '@/modules/chat/recent-list';
 import { User } from '@/modules/user/types';
-import { Suspense } from 'react';
+import { socket } from '@/utils/socket';
+import { Suspense, useEffect } from 'react';
 import { Await, useLoaderData } from 'react-router-dom';
 
 export default function Chat() {
 	const dataLoader = useLoaderData() as Awaited<TFetchReturnType>;
+
+	useEffect(() => {
+		if (!socket.connected) {
+			socket.connect();
+		}
+		// return () => {
+		// 	socket.disconnect();
+		// };
+	}, []);
 
 	function otherListElements(others: HttpSuccess<User[]>) {
 		return <OtherList users={others.data} />;
