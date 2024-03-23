@@ -4,3 +4,7 @@ export type Chat = {
 	createdAt: Date;
 	updatedAt: Date;
 };
+
+export type TCreateChat = {
+	members: Pick<Chat, 'members'>;
+};

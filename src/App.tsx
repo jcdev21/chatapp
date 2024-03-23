@@ -7,6 +7,7 @@ import { loader as chatLoader } from './modules/chat/loader';
 import { actionRegister } from './modules/auth/action-register';
 import Chatroom from './pages/chatroom';
 import { loader as chatroomLoader } from './modules/chatroom/loader';
+import { actionCreateChat } from './modules/chat/action-create-chat';
 
 export default function App() {
 	const router = createBrowserRouter([
@@ -18,6 +19,7 @@ export default function App() {
 					index: true,
 					element: <Chat />,
 					loader: chatLoader,
+					action: actionCreateChat,
 				},
 				{
 					path: ':chatId',
